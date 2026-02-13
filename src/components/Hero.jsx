@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 const TEXTS = ['Haithem', 'HADJ AZZEM', 'Software Engineer'];
 
@@ -35,7 +35,7 @@ function useTypewriter(texts) {
 
     timeout = setTimeout(type, 400);
     return () => clearTimeout(timeout);
-  }, []);
+  }, [texts]);
 
   return { displayed, done };
 }
