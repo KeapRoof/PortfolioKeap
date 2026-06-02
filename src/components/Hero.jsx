@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { useLang } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
-const TEXTS = ['Haithem', 'HADJ AZZEM', 'Software Engineer'];
+const TEXTS_EN = ['Haithem', 'HADJ AZZEM', 'Software Engineer'];
+const TEXTS_FR = ['Haithem', 'HADJ AZZEM', 'Ingénieur Logiciel'];
 
 function useTypewriter(texts) {
   const [displayed, setDisplayed] = useState(['', '', '']);
@@ -11,12 +14,11 @@ function useTypewriter(texts) {
     let currentText = 0;
     let currentChar = 0;
     let timeout;
+    setDisplayed(['', '', '']);
+    setDone(false);
 
     function type() {
-      if (currentText >= texts.length) {
-        setDone(true);
-        return;
-      }
+      if (currentText >= texts.length) { setDone(true); return; }
       const full = texts[currentText];
       if (currentChar <= full.length) {
         setDisplayed(prev => {
@@ -41,6 +43,9 @@ function useTypewriter(texts) {
 }
 
 const Hero = ({ isLoaded, scrollToSection }) => {
+  const { lang } = useLang();
+  const t = translations[lang].hero;
+  const TEXTS = lang === 'en' ? TEXTS_EN : TEXTS_FR;
   const { displayed, done } = useTypewriter(TEXTS);
 
   const cursor = (index) =>
@@ -50,7 +55,6 @@ const Hero = ({ isLoaded, scrollToSection }) => {
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-      {/* Animated Background Grid */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0" style={{
           backgroundImage: `linear-gradient(to right, #e5e7eb 1px, transparent 1px),
@@ -61,56 +65,38 @@ const Hero = ({ isLoaded, scrollToSection }) => {
 
       <div className={`max-w-6xl mx-auto px-6 z-10 transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Text Content */}
           <div className="space-y-6">
-            {/* Name Placeholder */}
-            <div className="space-y-2" style={{ 
-              animation: 'slideInLeft 0.8s ease-out',
-              animationDelay: '0.2s',
-              animationFillMode: 'backwards'
-            }}>
+            <div className="space-y-2" style={{ animation: 'slideInLeft 0.8s ease-out', animationDelay: '0.2s', animationFillMode: 'backwards' }}>
               <h1 className="text-5xl md:text-7xl font-black leading-tight tracking-tighter">
                 <span className="block text-gray-900">{displayed[0]}{cursor(0)}</span>
                 <span className="block" style={{color: '#00B8DE'}}>{displayed[1]}{cursor(1)}</span>
               </h1>
             </div>
 
-            <h2 className="text-4xl md:text-5xl font-black leading-none tracking-tighter" style={{
-              animation: 'slideInLeft 0.8s ease-out',
-              animationDelay: '0.4s',
-              animationFillMode: 'backwards'
-            }}>
+            <h2 className="text-4xl md:text-5xl font-black leading-none tracking-tighter" style={{ animation: 'slideInLeft 0.8s ease-out', animationDelay: '0.4s', animationFillMode: 'backwards' }}>
               {displayed[2]}{cursor(2)}
             </h2>
-            
-            <p className="text-xl md:text-2xl text-gray-600 max-w-2xl font-light" style={{ 
-              animation: 'fadeIn 0.8s ease-out',
-              animationDelay: '0.6s',
-              animationFillMode: 'backwards'
-            }}>
-              Passionate about new technologies, I aim to master the entire development chain while deepening my understanding of the theoretical foundations of the tools and systems I use.
+
+            <p className="text-xl md:text-2xl text-gray-600 max-w-2xl font-light" style={{ animation: 'fadeIn 0.8s ease-out', animationDelay: '0.6s', animationFillMode: 'backwards' }}>
+              {t.description}
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-4" style={{ 
-              animation: 'fadeIn 0.8s ease-out',
-              animationDelay: '0.8s',
-              animationFillMode: 'backwards'
-            }}>
-              <button 
+            <div className="flex flex-wrap gap-4 pt-4" style={{ animation: 'fadeIn 0.8s ease-out', animationDelay: '0.8s', animationFillMode: 'backwards' }}>
+              <button
                 onClick={() => scrollToSection('projects')}
                 className="px-8 py-4 text-white font-bold uppercase text-sm tracking-wider hover:opacity-90 transition-all hover:scale-105"
                 style={{backgroundColor: '#00B8DE'}}
               >
-                View Projects
+                {t.viewProjects}
               </button>
-              <button 
+              <button
                 onClick={() => scrollToSection('about')}
                 className="px-8 py-4 border-2 font-bold uppercase text-sm tracking-wider transition-all hover:scale-105 hover:bg-gray-50"
                 style={{borderColor: '#00B8DE', color: '#00B8DE'}}
               >
-                About Me
+                {t.aboutMe}
               </button>
-              <a 
+              <a
                 href="/Haithem_CV.pdf"
                 download="Haithem_CV.pdf"
                 className="px-8 py-4 bg-gray-900 text-white font-bold uppercase text-sm tracking-wider hover:bg-gray-800 transition-all hover:scale-105 flex items-center gap-2"
@@ -120,38 +106,23 @@ const Hero = ({ isLoaded, scrollToSection }) => {
                   <polyline points="7 10 12 15 17 10"></polyline>
                   <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
-                Download CV
+                {t.downloadCV}
               </a>
             </div>
           </div>
 
-          {/* Right Column - Photo Placeholder */}
-          <div className="flex justify-center md:justify-end" style={{ 
-            animation: 'fadeIn 0.8s ease-out',
-            animationDelay: '0.4s',
-            animationFillMode: 'backwards'
-          }}>
+          <div className="flex justify-center md:justify-end" style={{ animation: 'fadeIn 0.8s ease-out', animationDelay: '0.4s', animationFillMode: 'backwards' }}>
             <div className="relative group">
-              {/* Photo Container */}
               <div className="relative w-80 h-80 md:w-96 md:h-96 overflow-hidden rounded-lg border-4 bg-white shadow-2xl transition-all duration-500 group-hover:scale-105" style={{borderColor: '#00B8DE'}}>
-                <img
-                  src="https://media.licdn.com/dms/image/v2/D4E03AQHoBTEGaMCCag/profile-displayphoto-crop_800_800/B4EZrLBWTsGYAM-/0/1764342720221?e=1772668800&v=beta&t=GV15zUewOfRoAf0InGKrvRbJlFDf9Ei10HXT5JhUYx4"
-                  alt="Haithem HADJ AZZEM"
-                  className="w-full h-full object-cover"
-                />
-                
-                {/* Decorative corner accent */}
-
+                <img src="/pfp.jpeg" alt="Haithem HADJ AZZEM" className="w-full h-full object-cover" />
               </div>
-              
-              {/* Floating decoration */}
               <div className="absolute -top-6 -left-6 w-24 h-24 border-4 rounded-lg opacity-30 animate-pulse" style={{borderColor: '#00B8DE'}} />
             </div>
           </div>
         </div>
       </div>
 
-      <button 
+      <button
         onClick={() => scrollToSection('about')}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-gray-400 transition-colors"
         onMouseEnter={(e) => e.currentTarget.style.color = '#00B8DE'}
@@ -162,22 +133,12 @@ const Hero = ({ isLoaded, scrollToSection }) => {
 
       <style jsx>{`
         @keyframes slideInLeft {
-          from {
-            transform: translateX(-50px);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
+          from { transform: translateX(-50px); opacity: 0; }
+          to   { transform: translateX(0);     opacity: 1; }
         }
         @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
+          from { opacity: 0; }
+          to   { opacity: 1; }
         }
       `}</style>
     </section>

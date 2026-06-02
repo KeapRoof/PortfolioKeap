@@ -2,18 +2,24 @@
 
 export const projects = [
   {
+    title: "HomeLab",
+    description: "Self-hosted home server built on a GMKtec K11 (Ryzen 9 8945HS, 32GB RAM) running Proxmox VE. Hosts 7 LXC containers and VMs including a media server stack (Plex, Jellyfin, Radarr, Sonarr, Lidarr), network-wide ad blocking (AdGuard Home with custom DHCP), Nextcloud for personal cloud storage, automated backups via Proxmox Backup Server, and a workflow automation engine (n8n) with custom pipelines. Exposed securely via Cloudflare Tunnels and Tailscale VPN.",
+    tech: ["Proxmox", "Docker", "Linux", "n8n", "Tailscale", "Cloudflare"],
+    featured: true
+  },
+  {
     title: "Sportify",
     description: "Social platform dedicated to sports enthusiasts, offering an immersive experience for sharing highlights, interacting with the community, participating in sports predictions, and gaming.",
     tech: ["PHP", "HTML", "CSS", "JavaScript"],
     link: "https://github.com/KeapRoof/Sportify",
-    featured: true
+    featured: false
   },
   {
     title: "TakeNote",
     description: "Secure note management platform with user authentication. Users can create, edit, and delete notes. Connected to a database for data persistence with code quality monitoring.",
     tech: ["Angular", "FastAPI", "SonarQube"],
     link: "https://github.com/KeapRoof/TakeNote",
-    featured: true
+    featured: false
   },
   {
     title: "Hospital Aid - Graph Pathfinding",
@@ -101,5 +107,5 @@ export const skills = {
   "Frontend": ["React", "Vue.js", "Angular", "Tailwind CSS", "HTML/CSS"],
   "Backend": ["Node.js", "Express", "Python", "Django", "REST APIs"],
   "Database": ["PostgreSQL", "MongoDB", "MySQL"],
-  "Tools": ["Git", "Docker", "AWS", "CI/CD", "Testing"]
+  "Tools": ["Linux","Git", "Docker", "AWS", "CI/CD", "Testing"]
 };

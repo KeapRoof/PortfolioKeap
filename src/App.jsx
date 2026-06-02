@@ -5,13 +5,18 @@ import About from './components/About';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
 import Education from './components/Education';
+import Passions from './components/Passions';
 import Footer from './components/Footer';
-import { projects, experience, education, skills } from './data/portfolioData';
+import { LanguageProvider, useLang } from './context/LanguageContext';
+import { translations } from './data/translations';
+import { skills } from './data/portfolioData';
 
-export default function DeveloperPortfolio() {
+function PortfolioContent() {
   const [activeSection, setActiveSection] = useState('about');
   const [scrollY, setScrollY] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const { lang } = useLang();
+  const t = translations[lang];
 
   useEffect(() => {
     setIsLoaded(true);
@@ -34,35 +39,38 @@ export default function DeveloperPortfolio() {
       '--secondary': '#ffffff',
       '--background': '#f3f4f6'
     }}>
-      <Navigation 
-        scrollY={scrollY} 
-        activeSection={activeSection} 
-        scrollToSection={scrollToSection} 
+      <Navigation
+        scrollY={scrollY}
+        activeSection={activeSection}
+        scrollToSection={scrollToSection}
       />
-      
-      <Hero 
-        isLoaded={isLoaded} 
-        scrollToSection={scrollToSection} 
-      />
-      
+
+      <Hero isLoaded={isLoaded} scrollToSection={scrollToSection} />
+
       <About skills={skills} />
-      
-      <Projects projects={projects} />
-      
-      <Experience experience={experience} />
-      
-      <Education education={education} />
-      
+
+      <Projects projects={t.projects_data} />
+
+      <Experience experience={t.experience_data} />
+
+      <Education education={t.education_data} />
+
+      <Passions />
+
       <Footer />
 
       <style jsx global>{`
-        .hover-primary:hover {
-          color: #00B8DE !important;
-        }
-        .group:hover .group-hover-title {
-          color: #00B8DE;
-        }
+        .hover-primary:hover { color: #00B8DE !important; }
+        .group:hover .group-hover-title { color: #00B8DE; }
       `}</style>
     </div>
+  );
+}
+
+export default function DeveloperPortfolio() {
+  return (
+    <LanguageProvider>
+      <PortfolioContent />
+    </LanguageProvider>
   );
 }
